@@ -85,4 +85,11 @@ void * newarray(m, n, a) unsigned long m, n; unsigned a; {
 	return allocate(m*n, a);
 }
 
+void deallocate(a) unsigned a; {
+	arena[a]->next = freeblocks;
+	freeblocks = first[a].next;
+	first[a].next = NULL;
+	arena[a] = &first[a];
+}
+
 #endif
