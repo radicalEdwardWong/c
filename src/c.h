@@ -7,7 +7,7 @@
 #endif
 
 #ifdef __STDC__
-include <stdarg.h>
+#include <stdarg.h>
 #define va_init(a,b) va_start(a,b)
 #else
 #include <varargs.h>
@@ -21,16 +21,18 @@ include <stdarg.h>
 #endif
 
 /* supports pointers of different sizes than int/word */
+#ifndef NULL
 #define NULL ((void*)0)
+#endif
 
 #define NELEMS(a) ((int)(sizeof (a)/sizeof ((a)[0])))
 #define roundup(x,n) (((x)+((n)-1))&(~((n)-1)))
 
-<typedefs>
+/* typedefs */
 #include "config.h"
-<interface 78>
-<exported types>
-<exported data>
-<exported functions>
+/* interface 78 */
+/* exported types */
+/* exported data */
+/* exported functions */
 
 

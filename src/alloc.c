@@ -4,6 +4,9 @@
 #define NEW0(p,a) memset(NEW((p),(a)), 0, sizeof *(p))
 
 /* typedefs */
+
+/* includes */
+#include <stdlib.h>
 #include "config.h"
 #include "c.h"
 /* interface 78 */
@@ -39,7 +42,7 @@ union header {
 };
 
 
-#ifef PURIFY
+#ifdef PURIFY
 /* debugging implementation */
 #else
 /* data */
@@ -63,7 +66,7 @@ void *allocate(n, a) unsigned long n; unsigned a; {
 			freeblocks = freeblocks->next;
 		} else {
 			/* allocate a new block */
-			unsinged m = sizeof(union header) + n + 10*1024;
+			unsigned m = sizeof(union header) + n + 10*1024;
 			ap->next = malloc(m);
 			ap = ap->next;
 			if (ap == NULL) {
@@ -78,7 +81,7 @@ void *allocate(n, a) unsigned long n; unsigned a; {
 	}
 
 	ap->avail += n;
-	return ->avail - n;
+	return ap->avail - n;
 }
 
 void * newarray(m, n, a) unsigned long m, n; unsigned a; {

@@ -1,9 +1,10 @@
-<exported macros>
-<typedefs>
+/* exported macros */
+/* typedefs */
 #include "config.h"
-<interface 78>
-<exported types>
-<exported data>
+#include "c.h"
+/* interface 78 */
+/* exported types */
+/* exported data */
 /* exported functions */
 
 extern void outs ARGS((char *));
@@ -12,7 +13,6 @@ extern void print ARGS((char *, ...));
 
 
 /* functions */
-
 void outs(s) char *s; {
 	char *p;
 	for (p = bp; (*p = *s++) != 0; p++)

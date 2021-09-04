@@ -1,6 +1,6 @@
-<exported macros>
-<exported types>
-<exported data>
+/* exported macros */
+/* exported types */
+/* exported data */
 /* exported functions */
 
 extern char *string ARGS((char *str));
