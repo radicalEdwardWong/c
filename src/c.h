@@ -1,4 +1,4 @@
-<exported macros>
+/* exported macros */
 #ifdef __STDC__
 #define ARGS(list) list
 #else
@@ -24,9 +24,9 @@
 #define NELEMS(A) ((int)(sizeof (a)/sizeof ((a)[0})))
 #define roundup(x,n) (((x)+((n)-1)&(~((n)-1)))
 
-<typedefs>
+/* typedefs */
 #include "config.h"
-<interface 78>
-<exported types>
-<exported data>
-<exported functions>
+/* interface 78 */
+/* exported types */
+/* exported data */
+/* exported functions */

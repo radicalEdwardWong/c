@@ -1,6 +1,7 @@
 #include "c.h"
-<macros>
-<types>
-<prototypes>
-<data>
-<functions>
+/* macros */
+/* typedefs */
+/* types */
+/* prototypes */
+/* data */
+/* functions */

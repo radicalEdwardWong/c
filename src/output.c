@@ -1,22 +1,14 @@
 #include "c.h"
 
-<exported macros>
-<typedefs>
-<exported types>
-<exported data>
-<exported functions>
+/* data */
+char *bp;
+
+/* exported functions */
 extern void outs ARGS((char *));
 
 extern void print ARGS((char *, ...));
 
-
-<macros>
-<types>
-<prototypes>
-<data>
-char *bp;
-
-<functions>
+/* functions */
 void outs(s) char *s; {
 	char *p;
 

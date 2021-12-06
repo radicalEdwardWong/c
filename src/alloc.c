@@ -1,23 +1,10 @@
 #include "c.h"
-<exported macros>
+/* exported macros */
 
 #define NEW(p,a) ((p) = allocate(sizeof *(p), (a)))
 #define NEW0(p,a) memset(NEW((p), (a)), 0, sizeof *(p))
 
-<exported types>
-
-<exported prototypes>
-<exported data>
-<exported functions>
-
-extern void *allocate ARGS((unsigned long n, unsigned a));
-extern void deallocate ARGS((unsigned a));
-
-extern void *newarray ARGS((unsigned long m, unsigned long n, unsigned a));
-
-
-<macros>
-<types>
+/* types */
 
 struct block {
 	struct block *next;
@@ -38,16 +25,25 @@ union header {
 };
 
 #ifdef PURIFY
-<debugging implementation>
+/* debugging implementation */
 #else
-<data>
+/* data */
 static struct block
 	first[] = { { NULL }, { NULL }, { NULL } },
 	*arena[] = { &first[0], &first[1], &first[2] };
 
 static struct block *freeblocks;
 
-<prototypes>
+
+
+/* prototypes */
+
+/* exported functions */
+
+extern void *allocate ARGS((unsigned long n, unsigned a));
+extern void deallocate ARGS((unsigned a));
+
+extern void *newarray ARGS((unsigned long m, unsigned long n, unsigned a));
 
 /* functions */
 

@@ -1,19 +1,6 @@
 #include "c.h"
-<exported macros>
-<exported types>
-<exported prototypes>
-<exported data>
-<exported functions>
 
-extern char *string ARGS((char *str));
-extern char *stringn ARGS((char *str, int len));
-extern char *stringd ARGS((int n));
-
-
-<macros>
-<types>
-<prototypes>
-<data>
+/* data */
 
 static struct string {
 	char *str;
@@ -21,7 +8,14 @@ static struct string {
 	struct string *link;
 } *buckets[1024];
 
-<functions>
+
+/* exported functions */
+
+extern char *string ARGS((char *str));
+extern char *stringn ARGS((char *str, int len));
+extern char *stringd ARGS((int n));
+
+/* functions */
 
 char *string(str) char *str; {
 	char *s;
