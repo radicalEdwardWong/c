@@ -24,6 +24,8 @@ union header {
 	union align a;
 };
 
+enum arena { FUNC };
+
 #ifdef PURIFY
 /* debugging implementation */
 #else

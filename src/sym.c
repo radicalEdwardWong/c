@@ -37,7 +37,7 @@ struct symbol {
 	/* debugger extension */
 };
 
-enum { CONSTANTS=1, LABELS, GLOBAL, PARAM, LOCAL };
+enum scope { CONSTANTS=1, LABELS, GLOBAL, PARAM, LOCAL };
 
 /* types */
 
@@ -76,6 +76,10 @@ Table labels;
 
 Coordinate src;
 
+extern int level;
+
+int level = GLOBAL;
+
 /* functions */
 
 Table table(tp, level) Table tp; int level; {
@@ -106,3 +110,50 @@ void (*apply) ARGS((Symbol, void *)); void *cl; {
 	}
 }
 
+void enterscope() {
+	++level;
+}
+
+void exitscope() {
+	rmtypes(level);
+
+	if (types->level == level)
+		types = types->previous;
+	if (identifiers->level == level) {
+		/* warn if more than 127 identifiers */
+		identifiers = identifiers->previous;
+	}
+	--level;
+}
+
+Symbol install(name, tpp, level, arena)
+char *name; Table *tpp; int level, arena; {
+	Table tp = *tpp;
+	struct entry *p;
+	unsigned h = (unsigned)name&(HASHSIZE-1);
+
+	if (level > 0 && tp->level < level)
+		tp = *tpp = table(tp, level);
+
+	NEW0(p, arena);
+	p->sym.name = name;
+	p->sym.scope = level;
+	p->sym.up = tp->all;
+	tp->all = &p->sym;
+	p->link = tp->buckets[h];
+	tp->buckets[h] = p;
+	return &p->sym;
+}
+
+Symbol lookup(name, tp) char *name; Table tp; {
+	struct entry *p;
+	unsigned h = (unsigned)name&(HASHSIZE-1);
+
+	do
+		for (p = tp->buckets[h]; p; p = p->link)
+			if (name == p->sym.name)
+				return &p->sym;
+	while ((tp = tp->previous) != NULL);
+
+	return NULL;
+}
