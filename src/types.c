@@ -28,11 +28,18 @@
 						|| unqual(t)->op == ENUM)
 #define isenum(t)		(unqual(t)->op == ENUM)
 
+#define fieldsize (p)	(p)->bitsize
+#define fieldright(p)	((p)->lsb - 1)
+#define fieldleft(p)	(8*(p)->type->size -\
+						fieldsize(p) - fieldright(p))
+#define fieldmask(p)	(~(~(unsigned)0<<fieldsize(p)))
 
 /* macros */
 /* typedefs */
 
 typedef struct type *Type;
+
+typedef struct field *Field;
 
 /* exported types */
 
@@ -69,8 +76,16 @@ enum {
 	LONG,
 	CONST,
 	VOLATILE
-}; 
+};
 
+struct field {
+	char *name;
+	Type type;
+	int offset;
+	short bitsize;
+	short lsb;
+	Field link;
+};
 
 /* types */
 /* prototypes */
@@ -266,4 +281,45 @@ int variadic(ty) Type ty; {
 		return i > 1 && ty->u.f.proto[i-1] == voidtype;
 	}
 	return 0;
+}
+
+Type newstruct(op, tag) int op; char *tag; {
+	Symbol p;
+
+	if (*tag == 0)
+		tag = stringd(genlabel(1));
+	else
+		/* check for redefinition of tag 67 */
+		if ((p = lookup(tag, types)) != NULL && (p->scope == level
+		|| p->scope == PARAM && level == PARAM+1)) {
+			if (p->type->op == op && !p->defined)
+				return p->type;
+			error("redefinition of '%s' previously defined at %w\n",
+				p->name, &p->src);
+		}
+
+	p = install(tag, &types, level, PERM);
+	p->type = type(op, NULL, 0, 0, p);
+	if (p->scope > maxlevel)
+		maxlevel = p->scope;
+
+	p->src = src;
+	return p->type;
+}
+
+Field newfield (name, ty, fty) char *name; Type ty, fty; {
+	Field p, *q = &ty->u.sym->u.s.flist;
+
+	if (name == NULL)
+		name = stringd(genlabel(1));
+
+	for (p = *q; p; q = &p->link, p = *q)
+		if (p->name = name)
+			error("duplicate field name '%s' in '%t'\n", name, ty);
+
+	NEW0(p, PERM);
+	*q = p;
+	p->name = name;
+	p->type = fty;
+	return p;
 }

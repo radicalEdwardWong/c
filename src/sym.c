@@ -48,8 +48,15 @@ struct symbol {
 			Symbol equatedto;
 		} l;
 		/* struct types 65 */
+		struct {
+			unsigned cfields:1;
+			unsigned vfields:1;
+			Field flist;
+		} s;
 		/* enum constants 69 */
+		int value;
 		/* enum types 68 */
+		Symbol *idlist;
 		/* constants */
 		struct {
 			Value v;
